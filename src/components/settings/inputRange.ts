@@ -16,7 +16,7 @@ export class InputRange extends Core {
     this.node.setAttribute('disabled', 'true');
     this.node.value = '0';
     this.node.style.backgroundSize = `0%`;
-    
+
     this.node.oninput = (e) => {
       const pos = (<HTMLInputElement>e.target).value;
       this.node.style.backgroundSize = `${pos}%`;
@@ -27,13 +27,11 @@ export class InputRange extends Core {
   setEnable(status: boolean) {
     if (status) {
       this.node.setAttribute('disabled', 'true');
-      // this.node.classList.add('cursor-not-allowed');
       this.node.value = '0';
       this.node.style.backgroundSize = `0%`;
       this.onInput('0');
     } else {
       this.node.removeAttribute('disabled');
-      // this.node.classList.remove('cursor-not-allowed');
       this.node.value = this.volume;
       this.node.style.backgroundSize = `${this.volume}%`;
       this.onInput(this.volume);

@@ -1,21 +1,7 @@
 import { Button } from './button';
 import Core from './core';
 import image from '../assets/101full.jpg';
-
-export const btnHome = [
-  {
-    name: 'settings',
-    content: 'Settings',
-  },
-  {
-    name: 'artists',
-    content: 'Artists',
-  },
-  {
-    name: 'masterpieces',
-    content: 'Masterpieces',
-  },
-];
+import { btnHome } from '../utils/config';
 
 export class HomePage extends Core {
   private btnArr: Array<Button>;
@@ -49,7 +35,7 @@ export class HomePage extends Core {
     imgContainer.node.append(img);
 
     const btnContainer = new Core(mainContainer.node);
-    btnContainer.node.classList.add('btn-container');
+    btnContainer.node.classList.add('btn-home-container');
     this.btnArr = btnHome.map((btn) => {
       const btnItem = new Button(
         btnContainer.node,

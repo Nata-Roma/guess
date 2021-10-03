@@ -1,5 +1,5 @@
-export default class Core {
-  public node: HTMLElement;
+export default class Core<NodeType extends HTMLElement = HTMLElement> {
+  public node: NodeType;
 
   constructor(
     parentNode: HTMLElement | null = null,
@@ -11,7 +11,7 @@ export default class Core {
     element.className = className;
     element.innerHTML = textContent;
     parentNode && parentNode.append(element);
-    this.node = element;
+    this.node = element as NodeType;
   }
 
   destroy(): void {

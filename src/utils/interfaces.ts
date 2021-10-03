@@ -20,7 +20,29 @@ export interface ISettingMusic {
   music: ISettingSound;
 }
 
+export interface IInitSetting {
+  initVolume: string,
+  initTime: string,
+  music: ISettingSound;
+  sound: ISettingSound;
+}
+
 export interface IEnableSound {
   name: string;
   status: boolean;
+}
+
+export interface ISetting {
+  music: {
+    isMusic: boolean;
+    volume: number;
+  };
+  sound: {
+    isSound: boolean;
+    volume: number;
+  };
+  timer: {
+    isTimer: boolean;
+    time: string;
+  };
 }

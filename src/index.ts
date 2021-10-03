@@ -11,7 +11,7 @@ class Main extends Core {
     super(parentNode, 'div');
 
     this.node.classList.add('relative');
-    // this.closeSettings();
+    this.closeSettings();
     this.homePage = new HomePage(this.node);
     
     const choiceBtn = [
@@ -23,8 +23,14 @@ class Main extends Core {
 
     this.homePage.onClick = (btnName: string) => {
       const element = choiceBtn.find(choice => choice.name === btnName);
+      element ? this.openSettings() : null
       // element.method();
-      this.openSettings();
+      
+    }
+
+    this.settings.onClick = (btnName: string) => {
+      console.log(btnName);
+      this.closeSettings();
     }
 
   }

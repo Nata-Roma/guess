@@ -1,4 +1,32 @@
+export const btnHome = [
+  {
+    name: 'artists',
+    content: 'Artists',
+  },
+  {
+    name: 'masterpieces',
+    content: 'Masterpieces',
+  },
+  {
+    name: 'settings',
+    content: 'Settings',
+  },
+];
+
+export const btnSettings = [
+  {
+    name: 'save',
+    content: 'Save',
+  },
+  {
+    name: 'cancel',
+    content: 'Cancel',
+  },
+];
+
 export const settings = {
+  initVolume: '15',
+  initTime: '20',
   music: {
     name: 'Music',
     icons: [
@@ -53,3 +81,18 @@ export const enableSound = [
     },
   ],
 ];
+
+export const settingState = {
+  music: {
+    isMusic: false,
+    volume: 0,
+  },
+  sound: {
+    isSound: false,
+    volume: 0,
+  },
+  timer: {
+    isTimer: false,
+    time: '20',
+  },
+};

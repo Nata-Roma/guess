@@ -4,15 +4,15 @@
 
 @layer components {
   .button {
-    @apply w-full md:w-60 p-2 text-2xl md:text-3xl bg-gradient-to-b from-yellow-200 to-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500 cursor-pointer transition duration-700 ease-in text-center text-white font-semibold my-3 md:my-7;
+    @apply w-full md:w-60 p-2 text-2xl md:text-3xl bg-gradient-to-b from-yellow-200 to-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500 cursor-pointer transition duration-700 ease-in text-center text-white font-semibold;
   }
 
   .home-container {
     @apply mx-auto flex max-w-screen-2xl bg-green-100 items-center justify-center flex-col py-8 h-screen
   }
 
-  .btn-container {
-    @apply md:pr-8 flex justify-center flex-col mx-auto items-center w-3/4 md:w-60
+  .btn-home-container {
+    @apply md:pr-8 flex justify-center flex-col mx-auto items-center w-3/4 md:w-60 space-y-6 md:space-y-14
   }
 
   .settings-container {
@@ -20,10 +20,14 @@
   }
 
   .inner-container {
-    @apply flex flex-col w-11/12 sm:w-9/12 md:w-7/12 xl:w-5/12 md:flex-row bg-green-100 rounded-md p-8 md:space-x-10 justify-center
+    @apply flex flex-col w-11/12 sm:w-9/12 md:w-7/12 xl:w-5/12 bg-green-100 rounded-md p-6 md:p-8 justify-center py-10
   }
 
-  .inner-settings {
+  .sound-container {
+    @apply flex flex-col w-full md:flex-row md:space-x-10 justify-center
+  }
+
+  .sound-settings {
     @apply flex flex-col justify-center items-start w-full
   }
 
@@ -39,15 +43,15 @@
     @apply appearance-none w-3 h-5 cursor-not-allowed bg-yellow-300 rounded-full shadow
   }
 
-  .input-checkbox {
-    @apply appearance-none w-4 h-4 bg-yellow-300 shadow-inner
+  .timer-settings-container {
+    @apply flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 justify-self-start mt-6
   }
 
-  .input-checkbox:checked {
-    @apply bg-red-500
+  .input-timer {
+    @apply appearance-none block w-20 bg-green-200 text-red-500 border border-green-200 rounded p-1 leading-tight focus:outline-none focus:bg-yellow-200 focus:border-red-500 text-2xl font-semibold pl-3
   }
 
-  .input-thimb {
-    @apply bg-white h-4 w-4 absolute top-0 -ml-2 -mt-1 z-10 shadow rounded-full cursor-pointer
+  .btn-settings-container {
+    @apply flex flex-col md:flex-row space-x-0 md:space-x-10 space-y-6 md:space-y-0 mt-16 mx-auto w-full justify-center items-center
   }
 }
