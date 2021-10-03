@@ -1,3 +1,6 @@
+import { GameModel } from './store/gameModel';
+import { Categories } from './components/categories/categories';
+import { SettingModel } from './store/settingModel';
 import { Settings } from './components/settings/settings';
 import Core from './components/core';
 import { HomePage } from './components/homePage';
@@ -5,34 +8,44 @@ import './style.css';
 
 class Main extends Core {
   homePage: HomePage;
-  settings: Settings = new Settings(this.node);
+  private settings: Settings;
+  private settingsModel: SettingModel;
+  private gameModel: GameModel;
+  private categories: Categories = null;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div');
-
     this.node.classList.add('relative');
+    this.settingsModel = new SettingModel();
+    this.gameModel = new GameModel();
+    this.settings = new Settings(this.node, this.settingsModel);
     this.closeSettings();
-    this.homePage = new HomePage(this.node);
-    
-    const choiceBtn = [
-      {
-        name: 'settings',
-        method: this.openSettings,
-      }
-    ];
+    // this.homePage = new HomePage(this.node);
+    this.categories = new Categories(this.node, 'artists', this.gameModel);
 
     this.homePage.onClick = (btnName: string) => {
-      const element = choiceBtn.find(choice => choice.name === btnName);
-      element ? this.openSettings() : null
-      // element.method();
-      
-    }
+      switch (btnName) {
+        case 'artists':
+          console.log(btnName);
+          this.homePage.destroy();
+          this.homePage = null;
+          this.categories = new Categories(this.node, btnName, this.gameModel);
+          break;
+        case 'masterpieces':
+          console.log(btnName);
+          break;
+        case 'settings':
+          this.openSettings();
+          break;
+        default:
+          break;
+      }
+    };
 
     this.settings.onClick = (btnName: string) => {
       console.log(btnName);
       this.closeSettings();
-    }
-
+    };
   }
 
   openSettings(): void {

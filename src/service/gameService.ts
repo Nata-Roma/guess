@@ -1,8 +1,8 @@
-import { GameModel } from '../store/gameModel';
+import { SettingModel } from '../store/settingModel';
 import { IEnableSound } from '../utils/interfaces';
 
 export class GameService {
-  constructor(private model: GameModel) {}
+  constructor(private model: SettingModel) {}
 
   enableSound(inputName: string): IEnableSound {
     const enableSound = this.model.getEnableSound();

@@ -1,60 +1,28 @@
-import { btnSettings, clearSettingName } from './../utils/settingConfig';
-import { IInitSetting, IBtnSetting } from './../utils/interfaces';
-import { settingState, enableSound, settings } from './../utils/settingConfig';
-import { IEnableSound, ISetting } from '../utils/interfaces';
-import Signal from '../utils/signal';
-
+import { IBtnSetting } from './../utils/interfaces';
+import { btnHome, btnReturnHome, cardBg } from './../utils/config';
 export class GameModel {
-  private settingState: ISetting;
-  private enableSound: Array<Array<IEnableSound>>;
-  private initSetting: IInitSetting;
-  private homeBtnSettings: Array<IBtnSetting>;
-  private clearSettingCommandName: string = clearSettingName;
-  public onMusicStatusChange: Signal<boolean> = new Signal<boolean>();
-  public onSoundStatusChange: Signal<boolean> = new Signal<boolean>();
-  public onClearSettings: Signal<IInitSetting> = new Signal<IInitSetting>();
+  private categories: Array<IBtnSetting>;
+  private btnReturnHome: IBtnSetting;
+  private cardBgArr: Array<string>
 
   constructor() {
-    this.settingState = settingState;
-    this.enableSound = enableSound;
-    this.initSetting = settings;
-    this.homeBtnSettings = btnSettings;
+    this.categories = btnHome;
+    this.btnReturnHome = btnReturnHome;
+    this.cardBgArr = cardBg
   }
 
-  getInitSettings(): IInitSetting {
-    return this.initSetting;
+  getCategoryName(name: string): string {
+    const category = this.categories.find((item) => item.name === name);
+    if (category) {
+      return category.content;
+    }
   }
 
-  setInitSettings(): void {
-    this.settingState = settingState;
-    this.onClearSettings.emit(this.initSetting);
+  getBtnReturnHome(): IBtnSetting {
+    return this.btnReturnHome;
   }
 
-  getHomeBtnSettings(): Array<IBtnSetting> {
-    return this.homeBtnSettings;
-  }
-
-  getClearSettingCommandName(): string {
-    return this.clearSettingCommandName;
-  }
-
-  getSettingState(): ISetting {
-    return this.settingState;
-  }
-
-  setSettingState(state: ISetting): void {
-    this.settingState = state;
-  }
-
-  getEnableSound(): Array<Array<IEnableSound>> {
-    return this.enableSound;
-  }
-
-  changeMusicStatus(status: boolean) {
-    this.onMusicStatusChange.emit(status);
-  }
-
-  changeSoundStatus(status: boolean) {
-    this.onSoundStatusChange.emit(status);
+  getCardArr(): Array<string> {
+    return this.cardBgArr;
   }
 }
