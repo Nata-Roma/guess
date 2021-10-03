@@ -1,12 +1,10 @@
+import { IInitSetting } from './../../utils/interfaces';
 import { GameService } from './../../service/gameService';
 import { GameModel } from './../../store/gameModel';
-import { ISetting } from './../../utils/interfaces';
 import { TimerSettings } from './timerSetting';
 import { InputBox } from './inputBox';
 import { MusicBox } from './musicBox';
 import Core from '../core';
-import { settings, enableSound, btnSettings } from '../../utils/config';
-import { IEnableSound } from '../../utils/interfaces';
 import { Button } from '../button';
 
 export class Settings extends Core {
@@ -16,14 +14,17 @@ export class Settings extends Core {
   public onClick: (btnName: string) => void;
   private model: GameModel;
   private service: GameService;
+  private timer: TimerSettings;
+  private musicBox: MusicBox;
+  private soundBox: MusicBox;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div');
     this.node.classList.add('settings-container');
     this.model = new GameModel();
     this.service = new GameService(this.model);
-
-    const initVolume = settings.initVolume;
+    const initSettings = this.model.getInitSettings();
+    const btnSettings = this.model.getHomeBtnSettings();
 
     const innerContainer = new Core(this.node, 'div', 'inner-container');
 
@@ -31,27 +32,42 @@ export class Settings extends Core {
 
     const musicContainer = new Core(soundBlock.node);
     musicContainer.node.classList.add('sound-settings');
-    const musicBox = new MusicBox(musicContainer.node, settings.music);
-    this.inputMusicBox = new InputBox(musicContainer.node, initVolume);
-    musicBox.onClick = (name: string) => {
+    this.musicBox = new MusicBox(musicContainer.node, initSettings.music);
+    this.musicBox.onClick = (name: string) => {
       this.service.changeMusicStatus(name);
+    };
+
+    this.inputMusicBox = new InputBox(
+      musicContainer.node,
+      initSettings.initVolume,
+    );
+    this.inputMusicBox.onInput = (volume: string) => {
+      this.service.changeMusicVolume(volume);
     };
 
     const soundContainer = new Core(soundBlock.node);
     soundContainer.node.classList.add('sound-settings');
-    const soundBox = new MusicBox(soundContainer.node, settings.sound);
-    this.inputSoundBox = new InputBox(soundContainer.node, initVolume);
-    soundBox.onClick = (name: string) => {
+
+    this.soundBox = new MusicBox(soundContainer.node, initSettings.sound);
+    this.soundBox.onClick = (name: string) => {
       this.service.changeSoundStatus(name);
     };
 
-    const timer = new TimerSettings(innerContainer.node);
-    timer.onClick = (status: boolean) => {
-      this.service.changeTimerStatus(status)
-    }
-    timer.onInput = (time: string) => {
+    this.inputSoundBox = new InputBox(
+      soundContainer.node,
+      initSettings.initVolume,
+    );
+    this.inputSoundBox.onInput = (volume: string) => {
+      this.service.changeSoundVolume(volume);
+    };
+
+    this.timer = new TimerSettings(innerContainer.node);
+    this.timer.onClick = (status: boolean) => {
+      this.service.changeTimerStatus(status);
+    };
+    this.timer.onInput = (time: string) => {
       this.service.changeTimerTime(time);
-    }
+    };
 
     const btnContainer = new Core(innerContainer.node);
     btnContainer.node.classList.add('btn-settings-container');
@@ -64,12 +80,20 @@ export class Settings extends Core {
         btn.name,
       );
       btnItem.onClick = (btnName: string) => {
+        this.service.clearSettings(btnName);
         this.onClick(btnName);
       };
       return btnItem;
     });
-    this.model.onMusicStatusChange.add((status: boolean) => this.changeMusicStatus(status));
-    this.model.onSoundStatusChange.add((status: boolean) => this.changeSoundStatus(status));
+    this.model.onMusicStatusChange.add((status: boolean) =>
+      this.changeMusicStatus(status),
+    );
+    this.model.onSoundStatusChange.add((status: boolean) =>
+      this.changeSoundStatus(status),
+    );
+    this.model.onClearSettings.add((state: IInitSetting) =>
+      this.clearSettings(state),
+    );
   }
 
   show(): void {
@@ -80,19 +104,17 @@ export class Settings extends Core {
     this.node.classList.add('hidden');
   }
 
-  enableSound(inputName: string): IEnableSound {
-    const found = enableSound.findIndex((sound) =>
-      sound.find((item) => item.name === inputName),
-    );
-    return enableSound[found].find((item) => item.name === inputName);
-  }
-
-  changeMusicStatus(status:boolean) {
+  changeMusicStatus(status: boolean): void {
     this.inputMusicBox.setEnable(status);
   }
 
-  changeSoundStatus(status:boolean) {
+  changeSoundStatus(status: boolean): void {
     this.inputSoundBox.setEnable(status);
   }
 
+  clearSettings(settings: IInitSetting): void {
+    this.timer.clearTimer();
+    this.musicBox.changeIconStatus(settings.music.icons[0].name);
+    this.soundBox.changeIconStatus(settings.sound.icons[0].name);
+  }
 }

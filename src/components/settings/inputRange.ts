@@ -26,15 +26,19 @@ export class InputRange extends Core {
 
   setEnable(status: boolean) {
     if (status) {
-      this.node.setAttribute('disabled', 'true');
-      this.node.value = '0';
-      this.node.style.backgroundSize = `0%`;
-      this.onInput('0');
+      this.clearInput();
     } else {
       this.node.removeAttribute('disabled');
       this.node.value = this.volume;
       this.node.style.backgroundSize = `${this.volume}%`;
       this.onInput(this.volume);
     }
+  }
+
+  clearInput() {
+    this.node.setAttribute('disabled', 'true');
+    this.node.value = '0';
+    this.node.style.backgroundSize = `0%`;
+    this.onInput('0');
   }
 }

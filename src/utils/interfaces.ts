@@ -35,14 +35,19 @@ export interface IEnableSound {
 export interface ISetting {
   music: {
     isMusic: boolean;
-    volume: number;
+    volume: string;
   };
   sound: {
     isSound: boolean;
-    volume: number;
+    volume: string;
   };
   timer: {
     isTimer: boolean;
     time: string;
   };
+}
+
+export interface IBtnSetting {
+  name: string;
+  content: string;
 }

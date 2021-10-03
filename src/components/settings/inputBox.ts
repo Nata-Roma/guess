@@ -3,6 +3,7 @@ import { InputRange } from './inputRange';
 
 export class InputBox extends Core {
   private input: InputRange;
+  public onInput: (val: string) => void;
 
   constructor(parentNode: HTMLElement, initVolume: string) {
     super(parentNode, 'div');
@@ -21,6 +22,7 @@ export class InputBox extends Core {
     inputVal.node.textContent = `0%`;
     this.input.onInput = (val: string) => {
       inputVal.node.textContent = `${val}%`;
+      this.onInput(val);
     };
   }
 

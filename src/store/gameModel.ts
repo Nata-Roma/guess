@@ -1,6 +1,6 @@
-import { IInitSetting } from './../utils/interfaces';
-import { enableSound, settings } from './../utils/config';
-import { settingState } from '../utils/config';
+import { btnSettings, clearSettingName } from './../utils/settingConfig';
+import { IInitSetting, IBtnSetting } from './../utils/interfaces';
+import { settingState, enableSound, settings } from './../utils/settingConfig';
 import { IEnableSound, ISetting } from '../utils/interfaces';
 import Signal from '../utils/signal';
 
@@ -8,17 +8,34 @@ export class GameModel {
   private settingState: ISetting;
   private enableSound: Array<Array<IEnableSound>>;
   private initSetting: IInitSetting;
+  private homeBtnSettings: Array<IBtnSetting>;
+  private clearSettingCommandName: string = clearSettingName;
   public onMusicStatusChange: Signal<boolean> = new Signal<boolean>();
   public onSoundStatusChange: Signal<boolean> = new Signal<boolean>();
+  public onClearSettings: Signal<IInitSetting> = new Signal<IInitSetting>();
 
   constructor() {
     this.settingState = settingState;
     this.enableSound = enableSound;
     this.initSetting = settings;
+    this.homeBtnSettings = btnSettings;
   }
 
-  getInitSettings():IInitSetting {
+  getInitSettings(): IInitSetting {
     return this.initSetting;
+  }
+
+  setInitSettings(): void {
+    this.settingState = settingState;
+    this.onClearSettings.emit(this.initSetting);
+  }
+
+  getHomeBtnSettings(): Array<IBtnSetting> {
+    return this.homeBtnSettings;
+  }
+
+  getClearSettingCommandName(): string {
+    return this.clearSettingCommandName;
   }
 
   getSettingState(): ISetting {
@@ -27,20 +44,17 @@ export class GameModel {
 
   setSettingState(state: ISetting): void {
     this.settingState = state;
-    console.log(this.settingState);
-    
   }
 
-  getEnableSound():Array<Array<IEnableSound>> {
+  getEnableSound(): Array<Array<IEnableSound>> {
     return this.enableSound;
   }
 
-  changeMusicStatus(status:boolean) {
+  changeMusicStatus(status: boolean) {
     this.onMusicStatusChange.emit(status);
   }
 
-  changeSoundStatus(status:boolean) {
+  changeSoundStatus(status: boolean) {
     this.onSoundStatusChange.emit(status);
   }
-
 }

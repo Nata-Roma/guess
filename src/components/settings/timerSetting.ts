@@ -3,6 +3,8 @@ import Core from '../core';
 export class TimerSettings extends Core {
   public onClick: (status: boolean) => void;
   public onInput: (time: string) => void;
+  private iconContainer: Core;
+  private time: Core<HTMLInputElement>;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div');
@@ -17,43 +19,46 @@ export class TimerSettings extends Core {
     title.node.textContent = 'Timer';
     title.node.classList.add('text-red-400', 'text-2xl');
 
-    const iconContainer = new Core(label.node);
-    iconContainer.node.classList.add(
+    this.iconContainer = new Core(label.node);
+    this.iconContainer.node.classList.add(
       'text-red-400',
       'text-3xl',
       'cursor-pointer',
     );
-    iconContainer.node.classList.add('text-yellow-400');
-    const icon = new Core<HTMLSpanElement>(iconContainer.node, 'span');
+    this.iconContainer.node.classList.add('text-yellow-400');
+    const icon = new Core<HTMLSpanElement>(this.iconContainer.node, 'span');
 
     icon.node.classList.add('iconify');
     icon.node.setAttribute('data-icon', 'mdi:timelapse');
 
-    const time = new Core<HTMLInputElement>(this.node, 'input');
-    time.node.classList.add('input-timer');
-    time.node.classList.add('text-yellow-400');
-    time.node.type = 'number';
-    time.node.value = '20';
-    time.node.min = '10';
-    time.node.max = '30';
-    time.node.disabled = !isTimer;
-    time.node.oninput = (e) => {
+    this.time = new Core<HTMLInputElement>(this.node, 'input');
+    this.time.node.classList.add('input-timer');
+    this.time.node.classList.add('text-yellow-400');
+    this.time.node.type = 'number';
+    this.time.node.value = '20';
+    this.time.node.min = '10';
+    this.time.node.max = '30';
+    this.time.node.disabled = !isTimer;
+    this.time.node.oninput = (e) => {
       const value = (<HTMLInputElement>e.target).value;
       this.onInput(value);
     };
 
-    iconContainer.node.onclick = () => {
+    this.iconContainer.node.onclick = () => {
       isTimer = !isTimer;
-      time.node.disabled = !isTimer;
+      this.time.node.disabled = !isTimer;
       if (isTimer) {
-        iconContainer.node.classList.remove('text-yellow-400');
-        time.node.classList.remove('text-yellow-400');
+        this.iconContainer.node.classList.remove('text-yellow-400');
+        this.time.node.classList.remove('text-yellow-400');
       } else {
-        iconContainer.node.classList.add('text-yellow-400');
-        time.node.classList.add('text-yellow-400');
-        time.node.value = '20';
+        this.clearTimer();
       }
       this.onClick(isTimer);
     };
+  }
+  clearTimer() {
+    this.iconContainer.node.classList.add('text-yellow-400');
+    this.time.node.classList.add('text-yellow-400');
+    this.time.node.value = '20';
   }
 }
