@@ -1,15 +1,7 @@
-# 🚀 Welcome to your new awesome project!
+# Art quiz game
 
-This project has been created using **webpack-cli**, you can now run
+- do you know this artist?
 
-```
-npm run build
-```
+- can you recognize this masterpiece?
 
-or
-
-```
-yarn build
-```
-
-to bundle your application
+### 

@@ -5,6 +5,8 @@ import Core from '../core';
 import { IGameData } from '../../utils/interfaces';
 
 export class Categories extends Core {
+  private cards: Array<CategoryCard> = []
+
   constructor(
     parentNode: HTMLElement,
     category: string,
@@ -56,7 +58,7 @@ export class Categories extends Core {
       'flex-wrap',
     );
 
-    this.randomSortCardBg().map((image, i) => {
+    this.cards = this.randomSortCardBg().map((image, i) => {
       const card = new CategoryCard(cardContainer.node, image, i, questionArr[i]);
       card.onClick = (dataArr: Array<IGameData>) => {
         console.log(dataArr);
