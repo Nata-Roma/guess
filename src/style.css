@@ -64,7 +64,14 @@
   }
 
   .category-card {
-    @apply flex px-2 rounded-lg shadow-lg w-full md:w-40 lg:w-44 h-20 sm:h-28 md:h-40 lg:h-44 bg-white my-2 mx-2 bg-no-repeat bg-center bg-cover
+    @apply flex px-2 rounded-lg shadow-xl w-full md:w-40 lg:w-44 h-20 sm:h-28 md:h-40 lg:h-44 bg-white my-4 md:my-2 mx-2 bg-no-repeat bg-center bg-cover relative border-2 border-yellow-400 cursor-pointer
   }
 
+  .category-icon {
+    @apply absolute text-6xl text-green-500 flex justify-center items-center shadow bg-white bg-opacity-75 rounded-md left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2
+  }
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
 }

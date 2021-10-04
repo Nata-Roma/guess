@@ -21,8 +21,8 @@ export interface ISettingMusic {
 }
 
 export interface IInitSetting {
-  initVolume: string,
-  initTime: string,
+  initVolume: string;
+  initTime: string;
   music: ISettingSound;
   sound: ISettingSound;
 }
@@ -50,4 +50,12 @@ export interface ISetting {
 export interface IBtnSetting {
   name: string;
   content: string;
+}
+
+export interface IGameData {
+  artist: string;
+  masterpiece: string;
+  year: string;
+  imageNum: string;
+  rightAnswer: boolean;
 }

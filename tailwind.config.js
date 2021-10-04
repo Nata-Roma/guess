@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       cursor: {
         resize: 'ew-resize',
-      },
+      }
     },
   },
   variants: {

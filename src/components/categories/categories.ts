@@ -2,6 +2,7 @@ import { CategoryCard } from './categoryCard';
 import { GameModel } from '../../store/gameModel';
 import { Button } from '../button';
 import Core from '../core';
+import { IGameData } from '../../utils/interfaces';
 
 export class Categories extends Core {
   constructor(
@@ -11,6 +12,7 @@ export class Categories extends Core {
   ) {
     super(parentNode, 'div');
     this.node.classList.add('category-container');
+    const questionArr = this.model.getQuestionPool();
 
     const titleContainer = new Core(this.node);
     titleContainer.node.classList.add(
@@ -54,7 +56,14 @@ export class Categories extends Core {
       'flex-wrap',
     );
 
-    this.randomSortCardBg().map((image, i) => new CategoryCard(cardContainer.node, image, i))
+    this.randomSortCardBg().map((image, i) => {
+      const card = new CategoryCard(cardContainer.node, image, i, questionArr[i]);
+      card.onClick = (dataArr: Array<IGameData>) => {
+        console.log(dataArr);
+      }
+      return card;
+    });
+    
   }
 
   randomSortCardBg() {
