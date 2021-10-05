@@ -51,7 +51,7 @@ export class CategoryCard extends Core {
 
   checkAnswersDone() {
     const doneNumber = this.dataArr.reduce(
-      (acc, data) => acc + (data.rightAnswer ? 1 : 0),
+      (acc, data) => acc + (data.rightArtist || data.rightMasterpiece ? 1 : 0),
       0,
     );
     doneNumber ? new CategoryIcon(this.node) : null;

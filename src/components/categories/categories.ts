@@ -5,7 +5,8 @@ import Core from '../core';
 import { IGameData } from '../../utils/interfaces';
 
 export class Categories extends Core {
-  private cards: Array<CategoryCard> = []
+  private cards: Array<CategoryCard> = [];
+  public onCardClick: (cardNumber: number, category: string) => void;
 
   constructor(
     parentNode: HTMLElement,
@@ -59,13 +60,18 @@ export class Categories extends Core {
     );
 
     this.cards = this.randomSortCardBg().map((image, i) => {
-      const card = new CategoryCard(cardContainer.node, image, i, questionArr[i]);
-      card.onClick = (dataArr: Array<IGameData>) => {
-        console.log(dataArr);
-      }
+      const card = new CategoryCard(
+        cardContainer.node,
+        image,
+        i,
+        questionArr[i],
+      );
+      card.onClick = () => {
+        console.log(category.slice(0, category.length-1));
+        this.onCardClick(i, category.slice(0, category.length-1));
+      };
       return card;
     });
-    
   }
 
   randomSortCardBg() {

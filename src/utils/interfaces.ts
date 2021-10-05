@@ -52,10 +52,21 @@ export interface IBtnSetting {
   content: string;
 }
 
+export interface IGameinitialData {
+  [key: string]: string;
+  artist: string;
+  masterpiece: string;
+  year: string;
+  imageNum: string;
+}
+
 export interface IGameData {
   artist: string;
   masterpiece: string;
   year: string;
   imageNum: string;
-  rightAnswer: boolean;
+  artistChoice: Array<string>;
+  masterpieceChoice: Array<string>;
+  rightArtist: boolean;
+  rightMasterpiece: boolean;
 }

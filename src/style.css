@@ -4,7 +4,7 @@
 
 @layer components {
   .button {
-    @apply w-full md:w-60 p-2 text-2xl md:text-3xl bg-gradient-to-b from-yellow-200 to-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500 cursor-pointer transition duration-700 ease-in text-center text-white font-semibold;
+    @apply w-full md:w-60 p-2 text-2xl md:text-3xl bg-gradient-to-b from-yellow-200 to-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500 cursor-pointer transition duration-700 ease-in text-center text-white font-semibold
   }
 
   .home-container {
@@ -39,7 +39,7 @@
     @apply appearance-none w-3 h-5 cursor-resize bg-yellow-300 rounded-full shadow
   }
 
-  .input-slider:disabled::-webkit-slider-thumb{
+  .input-slider:disabled::-webkit-slider-thumb {
     @apply appearance-none w-3 h-5 cursor-not-allowed bg-yellow-300 rounded-full shadow
   }
 
@@ -69,6 +69,41 @@
 
   .category-icon {
     @apply absolute text-6xl text-green-500 flex justify-center items-center shadow bg-white bg-opacity-75 rounded-md left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2
+  }
+
+  .game-container {
+    @apply mx-auto flex max-w-screen-2xl bg-green-100 flex-col h-screen
+  }
+
+  .game-header {
+    @apply flex justify-between items-center p-1 md:p-2 border-b border-yellow-400 flex-shrink-0
+  }
+
+  .game-current-round-icon {
+    @apply relative text-6xl text-green-500 flex justify-center items-center
+  }
+
+  .game-current-round-counter {
+    @apply block absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 text-3xl text-yellow-500
+  }
+
+  .artist-container {
+    @apply flex flex-col p-2 mx-auto h-full
+  }
+
+  .image-block {
+    @apply object-cover object-center my-2 mb-5
+  }
+
+  .choice-block {
+    @apply flex-shrink-0 mb-5 xl:flex-grow flex xl:items-end mx-auto
+  }
+
+  .artist-block {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4
+  }
+  .artist-choice {
+    @apply w-72 p-1 text-xl md:text-2xl bg-gradient-to-b from-yellow-200 to-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500 cursor-pointer transition duration-700 ease-in text-center text-white font-semibold mx-auto
   }
 }
 

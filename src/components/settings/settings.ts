@@ -1,6 +1,6 @@
 import { IInitSetting } from './../../utils/interfaces';
-import { GameService } from './../../service/gameService';
-import { SettingModel } from '../../store/settingModel';
+import { SettingsService } from '../../service/settingsService';
+import { SettingModel } from '../../store/settingsModel';
 import { TimerSettings } from './timerSetting';
 import { InputBox } from './inputBox';
 import { MusicBox } from './musicBox';
@@ -13,7 +13,7 @@ export class Settings extends Core {
   private inputSoundBox: InputBox;
   public onClick: (btnName: string) => void;
   private model: SettingModel;
-  private service: GameService;
+  private service: SettingsService;
   private timer: TimerSettings;
   private musicBox: MusicBox;
   private soundBox: MusicBox;
@@ -22,7 +22,7 @@ export class Settings extends Core {
     super(parentNode, 'div');
     this.node.classList.add('settings-container');
     this.model = model;
-    this.service = new GameService(this.model);
+    this.service = new SettingsService(this.model);
     const initSettings = this.model.getInitSettings();
     const btnSettings = this.model.getHomeBtnSettings();
 

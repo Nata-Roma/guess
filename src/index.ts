@@ -1,6 +1,7 @@
+import { GamePage } from './components/game/gamePage';
 import { GameModel } from './store/gameModel';
 import { Categories } from './components/categories/categories';
-import { SettingModel } from './store/settingModel';
+import { SettingModel } from './store/settingsModel';
 import { Settings } from './components/settings/settings';
 import Core from './components/core';
 import { HomePage } from './components/homePage';
@@ -12,6 +13,7 @@ class Main extends Core {
   private settingsModel: SettingModel;
   private gameModel: GameModel;
   private categories: Categories = null;
+  private gamePage: GamePage = null;
 
   constructor(parentNode: HTMLElement) {
     super(parentNode, 'div');
@@ -21,7 +23,14 @@ class Main extends Core {
     this.settings = new Settings(this.node, this.settingsModel);
     this.closeSettings();
     // this.homePage = new HomePage(this.node);
-    this.categories = new Categories(this.node, 'artists', this.gameModel);
+    this.categories = null;
+
+    this.gamePage = new GamePage(
+      this.node,
+      'artist',
+      0,
+      this.gameModel,
+    );
 
     this.homePage.onClick = (btnName: string) => {
       switch (btnName) {
@@ -30,6 +39,20 @@ class Main extends Core {
           this.homePage.destroy();
           this.homePage = null;
           this.categories = new Categories(this.node, btnName, this.gameModel);
+          this.categories.onCardClick = (
+            cardNumber: number,
+            category: string,
+          ) => {
+            console.log(cardNumber, category);
+            this.categories.destroy();
+            this.categories = null;
+            this.gamePage = new GamePage(
+              this.node,
+              category,
+              cardNumber,
+              this.gameModel,
+            );
+          };
           break;
         case 'masterpieces':
           console.log(btnName);

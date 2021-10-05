@@ -1,4 +1,4 @@
-const gameDataRu = [
+const gameData = [
   {
     artist: 'Исаак Левитан',
     masterpiece: 'Март',
@@ -1207,4 +1207,4 @@ const gameDataRu = [
   }
 ];
 
-export default gameDataRu;
+export default gameData;

@@ -1,6 +1,10 @@
-import { IBtnSetting, IGameData } from './../utils/interfaces';
+import {
+  IBtnSetting,
+  IGameData,
+  IGameinitialData,
+} from './../utils/interfaces';
 import { btnHome, btnReturnHome, cardBg } from './../utils/config';
-import gameDataRu from '../utils/gameData';
+import gameData from '../utils/gameData';
 export class GameModel {
   private categories: Array<IBtnSetting>;
   private btnReturnHome: IBtnSetting;
@@ -29,9 +33,33 @@ export class GameModel {
     return this.cardBgArr;
   }
 
+  getRandomArr(key: string, mandatory: string): Array<string> {
+    const arr = [];
+    arr.push(mandatory);
+    for (let i = 0; i < 3; i++) {
+      const random = Math.floor(Math.random() * 200 + 1);
+      const aa = (gameData as Array<IGameinitialData>)[random][key];
+      arr.push(aa);
+    }
+    return arr.sort(() => Math.random() - 0.5);
+  }
+
   createQuestionPool(): void {
-    let arr = [...gameDataRu].map((item) => ({ ...item, rightAnswer: false }));
-    arr.sort(() => Math.random() - 0.5);
+    let arr = [...gameData].map((item) => {
+      const artistChoice = this.getRandomArr('artist', item.artist);
+      const masterpieceChoice = this.getRandomArr(
+        'masterpiece',
+        item.masterpiece,
+      );
+      return {
+        ...item,
+        rightArtist: false,
+        rightMasterpiece: false,
+        artistChoice,
+        masterpieceChoice,
+      };
+    });
+
     for (let i = 0; i < arr.length; i += this.questionPerCard) {
       this.questionPool.push(arr.slice(i, i + 10));
     }
@@ -42,5 +70,16 @@ export class GameModel {
       this.createQuestionPool();
     }
     return this.questionPool;
+  }
+
+  amendQuestionPool(question: Array<IGameData>, cardNumber: number): void {
+    this.questionPool[cardNumber] = question;
+  }
+
+  getQuestionCard(cardNumber: number): Array<IGameData> {
+    if (!this.questionPool.length) {
+      this.createQuestionPool();
+    }
+    return this.questionPool[cardNumber];
   }
 }
