@@ -34,11 +34,12 @@ const config = {
     }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename:"style.css",
+      filename: "style.css",
     }),
     new CopyPlugin({
       patterns: [
         { from: "src/assets", to: path.resolve(__dirname, "dist", "assets"), },
+        { from: path.resolve(__dirname, './public'), to: 'public', },
       ],
     }),
     // Add your plugins here
