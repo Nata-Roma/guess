@@ -3,7 +3,12 @@ import {
   IGameData,
   IGameinitialData,
 } from './../utils/interfaces';
-import { btnHome, btnReturnHome, cardBg } from './../utils/config';
+import {
+  btnHome,
+  btnReturnHome,
+  cardBg,
+  questionsPerRound,
+} from './../utils/config';
 import gameData from '../utils/gameData';
 import Signal from '../utils/signal';
 
@@ -19,11 +24,14 @@ export class GameModel {
     question: Array<IGameData>;
     questionNum: number;
   }> = new Signal<{ question: Array<IGameData>; questionNum: number }>();
+  private questionsPerRound: number;
+  public onGameOver: Signal<string> = new Signal<string>();
 
   constructor() {
     this.categories = btnHome;
     this.btnReturnHome = btnReturnHome;
     this.cardBgArr = cardBg;
+    this.questionsPerRound = questionsPerRound;
   }
 
   getCategoryName(name: string): string {
@@ -69,7 +77,7 @@ export class GameModel {
     });
 
     for (let i = 0; i < arr.length; i += this.questionPerCard) {
-      this.questionPool.push(arr.slice(i, i + 10));
+      this.questionPool.push(arr.slice(i, i + questionsPerRound));
     }
   }
 
@@ -83,11 +91,13 @@ export class GameModel {
   amendQuestionPool(
     question: Array<IGameData>,
     setNumber: number,
-    questionNum: number
+    questionNum: number,
   ): void {
     this.questionPool[setNumber] = question;
     questionNum++;
-    this.onChangeQuestion.emit({question, questionNum})
+    if (questionNum < this.questionsPerRound) {
+      this.onChangeQuestion.emit({ question, questionNum });
+    }
   }
 
   getQuestionCard(cardNumber: number): Array<IGameData> {
@@ -99,5 +109,9 @@ export class GameModel {
 
   checkChoiceValidity(choice: string, status: boolean): void {
     this.onCheckChoiceValidity.emit({ choice, status });
+  }
+
+  gameOver(result: string) {
+    this.onGameOver.emit(result);
   }
 }

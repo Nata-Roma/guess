@@ -41,3 +41,5 @@ export const cardBg = [
   image9,
   image10,
 ];
+
+export const questionsPerRound = 10;

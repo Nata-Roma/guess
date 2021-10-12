@@ -6,6 +6,7 @@ import { Settings } from './components/settings/settings';
 import Core from './components/core';
 import { HomePage } from './components/homePage';
 import './style.css';
+import { questionsPerRound } from './utils/config';
 
 class Main extends Core {
   homePage: HomePage;
@@ -30,6 +31,7 @@ class Main extends Core {
       'artist',
       0,
       this.gameModel,
+      questionsPerRound
     );
 
     this.homePage.onClick = (btnName: string) => {
@@ -51,6 +53,7 @@ class Main extends Core {
               category,
               cardNumber,
               this.gameModel,
+              questionsPerRound
             );
           };
           break;

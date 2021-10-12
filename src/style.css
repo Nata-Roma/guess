@@ -92,12 +92,17 @@
   }
 
   .game-popup-info {
-    @apply flex flex-col w-11/12 sm:w-9/12 md:w-7/12 xl:w-5/12 bg-green-100 rounded-md px-6 md:p-8 justify-center py-6
+    @apply flex flex-col w-11/12 sm:w-9/12 md:w-7/12 xl:w-5/12 bg-green-100 rounded-md px-6 md:p-8 justify-center py-6 items-center
   }
 
   .game-popup-icon {
     @apply text-5xl md:text-6xl flex justify-center items-center
   }
+
+  .game-over-icon {
+    @apply text-7xl md:text-9xl flex justify-center items-center
+  }
+
 
   .artist-container {
     @apply flex flex-col p-2 mx-auto
@@ -124,6 +129,10 @@
   }
   .artist-choice {
     @apply w-72 p-1 text-xl md:text-2xl bg-gradient-to-b from-yellow-200 to-yellow-400 border border-yellow-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 hover:from-yellow-500 cursor-pointer transition duration-700 ease-in text-center text-white font-semibold mx-auto
+  }
+
+  .game-result-info {
+    @apply flex flex-col md:space-x-2  md:flex-row text-2xl md:text-4xl mb-5 md:mb-7 text-yellow-700
   }
 }
 

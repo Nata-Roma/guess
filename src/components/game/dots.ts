@@ -3,11 +3,11 @@ import Core from '../core';
 
 export class Dots extends Core {
   private dots: Array<Core>;
-  constructor(parentNode: HTMLElement) {
+  constructor(parentNode: HTMLElement, questionsPerRound: number) {
     super(parentNode);
     this.node.classList.add('flex', 'space-x-4', 'mb-7', 'mx-auto');
 
-    this.dots = Array.from({ length: 10 }, () => {
+    this.dots = Array.from({ length: questionsPerRound }, () => {
       const dot = new Core(this.node, 'div');
       dot.node.classList.add(
         'w-3',

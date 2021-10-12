@@ -1,3 +1,4 @@
+import { GameOverPopup } from './gameOverPopup';
 import { GamePopup } from './gamePopup';
 import { GameService } from './../../service/gameService';
 import { ArtistBlock } from './artistBlock';
@@ -16,12 +17,14 @@ export class GamePage extends Core {
   private gameService: GameService;
   private gamePopup: GamePopup;
   private category: string;
+  private gameOverPopup: GameOverPopup;
 
   constructor(
     parentNode: HTMLElement,
     category: string,
     setNumber: number,
     private model: GameModel,
+    questionsPerRound: number,
   ) {
     super(parentNode, 'div');
     this.node.classList.add('game-container');
@@ -35,6 +38,12 @@ export class GamePage extends Core {
       this.gamePopup.hide();
     };
     this.gamePopup.hide();
+
+    this.gameOverPopup = new GameOverPopup(this.node);
+    this.gameOverPopup.onClick = () => {
+      this.gameOverPopup.hide();
+    }
+    this.gameOverPopup.hide();
 
     this.questionArr = this.model.getQuestionCard(setNumber);
 
@@ -54,6 +63,7 @@ export class GamePage extends Core {
       this.currentQuestion,
       this.category,
       this.questionArr,
+      questionsPerRound,
     );
     this.gameBlock.onChoiceClick = (choice: string) => {
       this.gameService.checkChoiceValidity(
@@ -72,6 +82,7 @@ export class GamePage extends Core {
       this.choiceVerification(data),
     );
     this.model.onChangeQuestion.add((data) => this.changeCurrentQuestion(data));
+    this.model.onGameOver.add((data) => this.gameOver(data));
   }
 
   changeCurrentQuestion(data: {
@@ -99,5 +110,9 @@ export class GamePage extends Core {
       data.choice,
       this.questionArr[this.currentQuestion],
     );
+  }
+
+  gameOver(result: string): void {
+    this.gameOverPopup.show(result);
   }
 }
