@@ -5,12 +5,20 @@ import {
 } from './../utils/interfaces';
 import { btnHome, btnReturnHome, cardBg } from './../utils/config';
 import gameData from '../utils/gameData';
+import Signal from '../utils/signal';
+
 export class GameModel {
   private categories: Array<IBtnSetting>;
   private btnReturnHome: IBtnSetting;
   private cardBgArr: Array<string>;
   private questionPool: Array<Array<IGameData>> = [];
   private questionPerCard: number = 10;
+  public onCheckChoiceValidity: Signal<{ choice: string; status: boolean }> =
+    new Signal<{ choice: string; status: boolean }>();
+  public onChangeQuestion: Signal<{
+    question: Array<IGameData>;
+    questionNum: number;
+  }> = new Signal<{ question: Array<IGameData>; questionNum: number }>();
 
   constructor() {
     this.categories = btnHome;
@@ -72,8 +80,14 @@ export class GameModel {
     return this.questionPool;
   }
 
-  amendQuestionPool(question: Array<IGameData>, cardNumber: number): void {
-    this.questionPool[cardNumber] = question;
+  amendQuestionPool(
+    question: Array<IGameData>,
+    setNumber: number,
+    questionNum: number
+  ): void {
+    this.questionPool[setNumber] = question;
+    questionNum++;
+    this.onChangeQuestion.emit({question, questionNum})
   }
 
   getQuestionCard(cardNumber: number): Array<IGameData> {
@@ -81,5 +95,9 @@ export class GameModel {
       this.createQuestionPool();
     }
     return this.questionPool[cardNumber];
+  }
+
+  checkChoiceValidity(choice: string, status: boolean): void {
+    this.onCheckChoiceValidity.emit({ choice, status });
   }
 }

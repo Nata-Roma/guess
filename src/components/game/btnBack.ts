@@ -9,7 +9,7 @@ export class BtnBack extends Core {
 
     const icon = new Core<HTMLSpanElement>(this.node, 'span');
     icon.node.classList.add('iconify');
-    icon.node.setAttribute('data-icon', 'ion:return-up-back');
+    icon.node.setAttribute('data-icon', 'system-uicons:backward');
 
     this.node.onclick = () => {
       this.onClick();

@@ -8,15 +8,16 @@ export class CurrentRoundIcon extends Core {
     this.node.classList.add('game-current-round-icon');
     const icon = new Core<HTMLSpanElement>(this.node, 'span');
     icon.node.classList.add('iconify');
-    icon.node.setAttribute('data-icon', 'bx:bx-message-square');
+    icon.node.setAttribute('data-icon', 'system-uicons:marquee');
     this.roundNumber = new Core<HTMLSpanElement>(
       this.node,
       'span',
       'game-current-round-counter',
-      roundNumber.toString(),
+      (roundNumber + 1).toString(),
     );
   }
+
   changeRoundNumber(roundNumber: number): void {
-    this.roundNumber.node.textContent = roundNumber.toString();
+    this.roundNumber.node.textContent = (roundNumber + 1).toString();
   }
 }
