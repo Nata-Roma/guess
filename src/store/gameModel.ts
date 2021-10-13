@@ -2,6 +2,7 @@ import {
   IBtnSetting,
   IGameData,
   IGameinitialData,
+  IMasterpieceChoice,
 } from './../utils/interfaces';
 import {
   btnHome,
@@ -49,7 +50,7 @@ export class GameModel {
     return this.cardBgArr;
   }
 
-  getRandomArr(key: string, mandatory: string): Array<string> {
+  getRandomArtistArr(key: string, mandatory: string): Array<string> {
     const arr = [];
     arr.push(mandatory);
     for (let i = 0; i < 3; i++) {
@@ -60,12 +61,28 @@ export class GameModel {
     return arr.sort(() => Math.random() - 0.5);
   }
 
+  getRandomMarterPieceArr(keyName: string, keyImg: string, mandatoryName: string, mandatoryImg: string): Array<IMasterpieceChoice> {
+    const arr = [];
+    arr.push({name: mandatoryName, imageNum: mandatoryImg});
+    for (let i = 0; i < 3; i++) {
+      const random = Math.floor(Math.random() * 200 + 1);
+      const item = {
+        name: (gameData as Array<IGameinitialData>)[random][keyName],
+        imageNum: (gameData as Array<IGameinitialData>)[random][keyImg],
+      };
+      arr.push(item);
+    }
+    return arr.sort(() => Math.random() - 0.5);
+  }
+
   createQuestionPool(): void {
     let arr = [...gameData].map((item) => {
-      const artistChoice = this.getRandomArr('artist', item.artist);
-      const masterpieceChoice = this.getRandomArr(
+      const artistChoice = this.getRandomArtistArr('artist', item.artist);
+      const masterpieceChoice = this.getRandomMarterPieceArr(
         'masterpiece',
+        'imageNum',
         item.masterpiece,
+        item.imageNum
       );
       return {
         ...item,
@@ -100,6 +117,10 @@ export class GameModel {
     }
   }
 
+  checkGameOver(questionNum: number): boolean {
+    return ++questionNum < this.questionsPerRound
+  }
+
   getQuestionCard(cardNumber: number): Array<IGameData> {
     if (!this.questionPool.length) {
       this.createQuestionPool();
@@ -111,7 +132,7 @@ export class GameModel {
     this.onCheckChoiceValidity.emit({ choice, status });
   }
 
-  gameOver(result: string) {
+  gameOver(result: string): void {
     this.onGameOver.emit(result);
   }
 }

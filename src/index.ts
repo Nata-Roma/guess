@@ -23,50 +23,8 @@ class Main extends Core {
     this.gameModel = new GameModel();
     this.settings = new Settings(this.node, this.settingsModel);
     this.closeSettings();
-    // this.homePage = new HomePage(this.node);
+    this.createHomePage();
     this.categories = null;
-
-    this.gamePage = new GamePage(
-      this.node,
-      'artist',
-      0,
-      this.gameModel,
-      questionsPerRound
-    );
-
-    this.homePage.onClick = (btnName: string) => {
-      switch (btnName) {
-        case 'artists':
-          console.log(btnName);
-          this.homePage.destroy();
-          this.homePage = null;
-          this.categories = new Categories(this.node, btnName, this.gameModel);
-          this.categories.onCardClick = (
-            cardNumber: number,
-            category: string,
-          ) => {
-            console.log(cardNumber, category);
-            this.categories.destroy();
-            this.categories = null;
-            this.gamePage = new GamePage(
-              this.node,
-              category,
-              cardNumber,
-              this.gameModel,
-              questionsPerRound
-            );
-          };
-          break;
-        case 'masterpieces':
-          console.log(btnName);
-          break;
-        case 'settings':
-          this.openSettings();
-          break;
-        default:
-          break;
-      }
-    };
 
     this.settings.onClick = (btnName: string) => {
       console.log(btnName);
@@ -80,6 +38,38 @@ class Main extends Core {
 
   closeSettings(): void {
     this.settings.hide();
+  }
+
+  createHomePage() {
+    this.homePage = new HomePage(this.node);
+    this.homePage.onClick = (btnName: string) => {
+      if (btnName === 'artists' || btnName === 'masterpieces') {
+        this.homePage.destroy();
+        this.homePage = null;
+        this.categories = new Categories(this.node, btnName, this.gameModel);
+        this.categories.onCardClick = (
+          cardNumber: number,
+          category: string,
+        ) => {
+          this.categories.destroy();
+          this.categories = null;
+          this.gamePage = new GamePage(
+            this.node,
+            category,
+            cardNumber,
+            this.gameModel,
+            questionsPerRound,
+          );
+          this.gamePage.onGameOver = () => {
+            this.gamePage.destroy();
+            this.gamePage = null;
+            this.createHomePage();
+          };
+        };
+      } else if (btnName === 'settings') {
+        this.openSettings();
+      }
+    };
   }
 }
 

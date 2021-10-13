@@ -42,4 +42,4 @@ export const cardBg = [
   image10,
 ];
 
-export const questionsPerRound = 10;
+export const questionsPerRound = 2;

@@ -60,13 +60,18 @@ export interface IGameinitialData {
   imageNum: string;
 }
 
+export interface IMasterpieceChoice {
+  name: string;
+  imageNum: string;
+}
+
 export interface IGameData {
   artist: string;
   masterpiece: string;
   year: string;
   imageNum: string;
   artistChoice: Array<string>;
-  masterpieceChoice: Array<string>;
+  masterpieceChoice: Array<IMasterpieceChoice>;
   rightArtist: boolean;
   rightMasterpiece: boolean;
 }

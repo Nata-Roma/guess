@@ -2,14 +2,12 @@ import { Dots } from './dots';
 import { IGameData } from '../../utils/interfaces';
 import Core from '../core';
 
-export class ArtistBlock extends Core {
-  private img: Core<HTMLImageElement>;
+export class MasterPieceBlock extends Core {
   private title: Core;
   private choiceBlock: Core;
-  private imageBlock: Core;
   public onChoiceClick: (choice: string) => void;
   private dots: Dots;
-  private choiceBtns: Core;
+  private imageContainer: Core;
 
   constructor(
     parentNode: HTMLElement,
@@ -17,30 +15,23 @@ export class ArtistBlock extends Core {
     currentQuestion: number,
     category: string,
     gameDataRound: Array<IGameData>,
-    questionsPerRound: number
+    questionsPerRound: number,
   ) {
     super(parentNode, 'div', 'artist-container');
 
     this.title = new Core(this.node);
     this.title.node.classList.add('game-title');
-    this.title.node.textContent = 'Who is an author?';
-
-    this.imageBlock = new Core(this.node);
-    this.imageBlock.node.classList.add('artist-image-block');
+    this.imageContainer = new Core(
+      this.node,
+      'div',
+      'masterpiece-image-container',
+    );
     
-    this.img = new Core<HTMLImageElement>(this.imageBlock.node, 'img');
-    this.img.node.src = `./public/img_full/${gameDataRound[currentQuestion].imageNum}full.jpg`;
-    this.img.node.classList.add('artist-image');
-
     this.choiceBlock = new Core(this.node);
     this.choiceBlock.node.classList.add('choice-block');
     this.dots = new Dots(this.choiceBlock.node, questionsPerRound);
 
-    this.choiceBtns = new Core(this.choiceBlock.node);
-    this.choiceBtns.node.classList.add('artist-block');
-    this.createChoiceBtns(gameDataRound[currentQuestion]);
-    
-    this.fillDots(gameDataRound, category, currentQuestion);
+    this.changeCurrentQuestion(gameDataRound, currentQuestion, category)
   }
 
   changeViewOnResize(nodeBox: number): void {
@@ -50,8 +41,10 @@ export class ArtistBlock extends Core {
     // console.log('titleBox', titleBox.width, titleBox.height);
     // console.log('choiceBox', choiceBox.width, choiceBox.height);
 
-    this.imageBlock.node.style.height = `calc(100vh - ${
-      nodeBox + choiceBox.height + titleBox.height + 16
+    // console.log(this.getHeaderSize());
+    
+    this.imageContainer.node.style.height = `calc(100vh - ${
+      nodeBox + choiceBox.height + titleBox.height+16
     }px)`;
   }
 
@@ -63,17 +56,20 @@ export class ArtistBlock extends Core {
     this.dots.fillDots(questionArr, category, currentIndex);
   }
 
-  createChoiceBtns(gameData: IGameData): void {
-    this.choiceBtns.node.textContent = '';
-    gameData.artistChoice.map((choice) => {
-      const choiceBtn = new Core<HTMLButtonElement>(
-        this.choiceBtns.node,
-        'button',
-        'artist-choice',
+  createChoiceImgs(gameData: IGameData): void {
+    this.imageContainer.node.textContent = '';
+    gameData.masterpieceChoice.map((choice) => {
+      const imgBox = new Core(
+        this.imageContainer.node,
+        'div',
+        'masterpiece-image-block',
       );
-      choiceBtn.node.textContent = choice;
-      choiceBtn.node.onclick = () => {
-        this.onChoiceClick(choice);
+      const img = new Core<HTMLImageElement>(imgBox.node, 'img');
+      img.node.src = `./public/img_full/${choice.imageNum}full.jpg`;
+      img.node.alt = choice.name;
+      img.node.classList.add('masterpiece-image');
+      imgBox.node.onclick = () => {
+        this.onChoiceClick(choice.name);
       };
     });
   }
@@ -83,8 +79,10 @@ export class ArtistBlock extends Core {
     questionNum: number,
     category: string,
   ): void {
-    this.img.node.src = `./public/img_full/${gameData[questionNum].imageNum}full.jpg`;
+    console.log('gameData', gameData);
+    this.title.node.textContent = `Which masterpiece is painted by ${gameData[questionNum].artist}?`;
+
     this.fillDots(gameData, category, questionNum);
-    this.createChoiceBtns(gameData[questionNum]);
+    this.createChoiceImgs(gameData[questionNum]);
   }
 }

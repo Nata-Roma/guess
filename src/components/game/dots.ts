@@ -39,11 +39,6 @@ export class Dots extends Core {
     category: string,
     currentIndex: number,
   ) {
-    console.log(category);
-    console.log(currentIndex);
-    
-    
-    
     if (category === 'artist') {
       for (let i = 0; i < currentIndex; i++) {
         questionArr[i].rightArtist

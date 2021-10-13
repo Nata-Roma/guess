@@ -67,7 +67,6 @@ export class Categories extends Core {
         questionArr[i],
       );
       card.onClick = () => {
-        console.log(category.slice(0, category.length-1));
         this.onCardClick(i, category.slice(0, category.length-1));
       };
       return card;
