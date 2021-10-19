@@ -46,29 +46,40 @@ class Main extends Core {
       if (btnName === 'artists' || btnName === 'masterpieces') {
         this.homePage.destroy();
         this.homePage = null;
-        this.categories = new Categories(this.node, btnName, this.gameModel);
-        this.categories.onCardClick = (
-          cardNumber: number,
-          category: string,
-        ) => {
-          this.categories.destroy();
-          this.categories = null;
-          this.gamePage = new GamePage(
-            this.node,
-            category,
-            cardNumber,
-            this.gameModel,
-            questionsPerRound,
-          );
-          this.gamePage.onGameOver = () => {
-            this.gamePage.destroy();
-            this.gamePage = null;
-            this.createHomePage();
-          };
-        };
+        this.createCategories(btnName);
       } else if (btnName === 'settings') {
         this.openSettings();
       }
+    };
+  }
+
+  createCategories(btnName: string): void {
+    this.categories = new Categories(this.node, btnName, this.gameModel);
+    this.categories.onCardClick = (cardNumber: number, category: string) => {
+      this.categories.destroy();
+      this.categories = null;
+      this.gamePage = new GamePage(
+        this.node,
+        category,
+        cardNumber,
+        this.gameModel,
+        questionsPerRound,
+      );
+      this.gamePage.onGameOver = () => {
+        this.gamePage.destroy();
+        this.gamePage = null;
+        this.createHomePage();
+      };
+      this.gamePage.onReturnClick = (category: string) => {
+        this.gamePage.destroy();
+        this.gamePage = null;
+        this.createCategories(category+'s');
+      };
+    };
+    this.categories.onReturnClick = () => {
+      this.categories.destroy();
+      this.categories = null;
+      this.createHomePage();
     };
   }
 }

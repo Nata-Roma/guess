@@ -7,6 +7,7 @@ import { IGameData } from '../../utils/interfaces';
 export class Categories extends Core {
   private cards: Array<CategoryCard> = [];
   public onCardClick: (cardNumber: number, category: string) => void;
+  public onReturnClick: () => void = () => {};
 
   constructor(
     parentNode: HTMLElement,
@@ -45,7 +46,7 @@ export class Categories extends Core {
       this.model.getBtnReturnHome().name,
     );
     btnReturn.onClick = () => {
-      console.log('btnReturn click');
+      this.onReturnClick();
     };
 
     const cardContainer = new Core(this.node);
@@ -65,9 +66,10 @@ export class Categories extends Core {
         image,
         i,
         questionArr[i],
+        category,
       );
       card.onClick = () => {
-        this.onCardClick(i, category.slice(0, category.length-1));
+        this.onCardClick(i, category.slice(0, category.length - 1));
       };
       return card;
     });
