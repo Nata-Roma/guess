@@ -19,6 +19,7 @@ export class GamePage extends Core {
   private gamePopup: GamePopup;
   private category: string;
   private gameOverPopup: GameOverPopup;
+  public onReturnClick: (category: string) => void;
   public onGameOver: () => void;
 
   constructor(
@@ -60,7 +61,7 @@ export class GamePage extends Core {
 
     const btnBack = new BtnBack(this.gameHeader.node);
     btnBack.onClick = () => {
-      this.onGameOver();
+      this.onReturnClick(this.category);
     };
 
     this.currentRoundHeader = new CurrentRoundIcon(this.gameHeader.node, 0);
@@ -77,7 +78,6 @@ export class GamePage extends Core {
     if (category === 'masterpiece') {
       this.gameBlock = new MasterPieceBlock(
         this.node,
-        this.questionArr[this.currentQuestion],
         this.currentQuestion,
         this.category,
         this.questionArr,
@@ -120,17 +120,8 @@ export class GamePage extends Core {
   }
 
   changeViewOnResize(): void {
-    const height = getComputedStyle(this.gameHeader.node).height ;
-    console.log(height);
     const nodeBox = this.gameHeader.node.getBoundingClientRect();
     this.gameBlock.changeViewOnResize(nodeBox.height);
-  }
-
-  getHeaderSize(): DOMRect {
-    const box = this.gameHeader.node.getBoundingClientRect();
-    console.log(box);
-
-    return this.gameHeader.node.getBoundingClientRect();
   }
 
   choiceVerification(data: { choice: string; status: boolean }) {

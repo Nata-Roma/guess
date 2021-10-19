@@ -11,7 +11,6 @@ export class MasterPieceBlock extends Core {
 
   constructor(
     parentNode: HTMLElement,
-    gameData: IGameData,
     currentQuestion: number,
     category: string,
     gameDataRound: Array<IGameData>,
@@ -37,12 +36,6 @@ export class MasterPieceBlock extends Core {
   changeViewOnResize(nodeBox: number): void {
     const titleBox = this.title.node.getBoundingClientRect();
     const choiceBox = this.choiceBlock.node.getBoundingClientRect();
-    // console.log('nodeBox', nodeBox.width, nodeBox.height);
-    // console.log('titleBox', titleBox.width, titleBox.height);
-    // console.log('choiceBox', choiceBox.width, choiceBox.height);
-
-    // console.log(this.getHeaderSize());
-    
     this.imageContainer.node.style.height = `calc(100vh - ${
       nodeBox + choiceBox.height + titleBox.height+16
     }px)`;
@@ -79,7 +72,6 @@ export class MasterPieceBlock extends Core {
     questionNum: number,
     category: string,
   ): void {
-    console.log('gameData', gameData);
     this.title.node.textContent = `Which masterpiece is painted by ${gameData[questionNum].artist}?`;
 
     this.fillDots(gameData, category, questionNum);

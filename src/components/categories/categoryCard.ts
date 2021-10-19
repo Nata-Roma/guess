@@ -11,12 +11,12 @@ export class CategoryCard extends Core {
     image: string,
     private cardNum: number,
     private dataArr: Array<IGameData>,
+    private category: string,
   ) {
     super(parentNode, 'div');
     this.node.classList.add('category-card');
     this.node.style.backgroundImage = `url(${image})`;
     this.node.onclick = () => this.onClick(dataArr);
-    
 
     const cardNumber = new Core(this.node);
     cardNumber.node.classList.add(
@@ -50,10 +50,14 @@ export class CategoryCard extends Core {
   }
 
   checkAnswersDone() {
-    const doneNumber = this.dataArr.reduce(
-      (acc, data) => acc + (data.rightArtist || data.rightMasterpiece ? 1 : 0),
-      0,
-    );
+    const doneNumber = this.dataArr.reduce((acc, data) => {
+      if (this.category === 'artists') {
+        acc = acc + (data.rightArtist ? 1 : 0);
+      } else if (this.category === 'masterpieces') {
+        acc = acc + (data.rightMasterpiece ? 1 : 0);
+      }
+      return acc;
+    }, 0);
     doneNumber ? new CategoryIcon(this.node) : null;
     this.done.node.textContent = `${doneNumber}/${this.dataArr.length}`;
   }
