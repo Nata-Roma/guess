@@ -38,9 +38,8 @@ export class ArtistBlock extends Core {
 
     this.choiceBtns = new Core(this.choiceBlock.node);
     this.choiceBtns.node.classList.add('artist-block');
-    this.createChoiceBtns(gameDataRound[currentQuestion]);
-    
-    this.fillDots(gameDataRound, category, currentQuestion);
+
+    this.changeCurrentQuestion(gameDataRound, currentQuestion, category)
   }
 
   changeViewOnResize(nodeBox: number): void {
@@ -83,6 +82,7 @@ export class ArtistBlock extends Core {
     questionNum: number,
     category: string,
   ): void {
+    gameData[questionNum].isPlayedArtist = true;
     this.img.node.src = `./public/img_full/${gameData[questionNum].imageNum}full.jpg`;
     this.fillDots(gameData, category, questionNum);
     this.createChoiceBtns(gameData[questionNum]);

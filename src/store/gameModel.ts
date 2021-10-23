@@ -12,6 +12,7 @@ import {
 } from './../utils/config';
 import gameData from '../utils/gameData';
 import Signal from '../utils/signal';
+import appStorage from './storage';
 
 export class GameModel {
   private categories: Array<IBtnSetting>;
@@ -61,9 +62,14 @@ export class GameModel {
     return arr.sort(() => Math.random() - 0.5);
   }
 
-  getRandomMarterPieceArr(keyName: string, keyImg: string, mandatoryName: string, mandatoryImg: string): Array<IMasterpieceChoice> {
+  getRandomMasrterPieceArr(
+    keyName: string,
+    keyImg: string,
+    mandatoryName: string,
+    mandatoryImg: string,
+  ): Array<IMasterpieceChoice> {
     const arr = [];
-    arr.push({name: mandatoryName, imageNum: mandatoryImg});
+    arr.push({ name: mandatoryName, imageNum: mandatoryImg });
     for (let i = 0; i < 3; i++) {
       const random = Math.floor(Math.random() * 200 + 1);
       const item = {
@@ -78,11 +84,11 @@ export class GameModel {
   createQuestionPool(): void {
     let arr = [...gameData].map((item) => {
       const artistChoice = this.getRandomArtistArr('artist', item.artist);
-      const masterpieceChoice = this.getRandomMarterPieceArr(
+      const masterpieceChoice = this.getRandomMasrterPieceArr(
         'masterpiece',
         'imageNum',
         item.masterpiece,
-        item.imageNum
+        item.imageNum,
       );
       return {
         ...item,
@@ -90,17 +96,24 @@ export class GameModel {
         rightMasterpiece: false,
         artistChoice,
         masterpieceChoice,
+        isPlayedArtist: false,
+        isPlayedMasterpiece: false,
       };
     });
 
     for (let i = 0; i < arr.length; i += this.questionPerCard) {
       this.questionPool.push(arr.slice(i, i + questionsPerRound));
     }
+    appStorage.setDataBase(this.questionPool);
   }
 
   getQuestionPool(): Array<Array<IGameData>> {
-    if (!this.questionPool.length) {
+    console.log('local storage', appStorage.getDataBase());
+    const dbGameData = appStorage.getDataBase();
+    if (dbGameData === null) {
       this.createQuestionPool();
+    } else {
+      this.questionPool = dbGameData;
     }
     return this.questionPool;
   }
@@ -111,6 +124,7 @@ export class GameModel {
     questionNum: number,
   ): void {
     this.questionPool[setNumber] = question;
+    appStorage.setDataBase(this.questionPool);
     questionNum++;
     if (questionNum < this.questionsPerRound) {
       this.onChangeQuestion.emit({ question, questionNum });
@@ -118,7 +132,7 @@ export class GameModel {
   }
 
   checkGameOver(questionNum: number): boolean {
-    return ++questionNum < this.questionsPerRound
+    return ++questionNum < this.questionsPerRound;
   }
 
   getQuestionCard(cardNumber: number): Array<IGameData> {

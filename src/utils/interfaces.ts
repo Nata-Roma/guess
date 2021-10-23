@@ -74,4 +74,6 @@ export interface IGameData {
   masterpieceChoice: Array<IMasterpieceChoice>;
   rightArtist: boolean;
   rightMasterpiece: boolean;
+  isPlayedArtist: boolean;
+  isPlayedMasterpiece: boolean;
 }

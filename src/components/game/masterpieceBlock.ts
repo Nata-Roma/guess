@@ -72,6 +72,7 @@ export class MasterPieceBlock extends Core {
     questionNum: number,
     category: string,
   ): void {
+    gameData[questionNum].isPlayedMasterpiece = true;
     this.title.node.textContent = `Which masterpiece is painted by ${gameData[questionNum].artist}?`;
 
     this.fillDots(gameData, category, questionNum);

@@ -79,6 +79,8 @@ export class GamePopup extends Core {
       this.statusText.node.textContent = `Nope, that's wrong`;
       icon.node.setAttribute('data-icon', 'system-uicons:face-sad');
     }
+    console.log(gameData);
+    
     this.image.node.src = `../../assets/101full.jpg`;
     new Core(this.infoBlock.node, 'div', '', gameData.artist);
     new Core(this.infoBlock.node, 'div', '', gameData.masterpiece);
